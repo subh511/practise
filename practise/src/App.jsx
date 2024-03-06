@@ -1,40 +1,29 @@
-import { useContext, useState } from "react";
-import { CountContext } from "./components/ContextApi";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Landing from "./components/Landing";
+import Dashboard from "./components/Dashboard";
 function App() {
-  const [count, setCount] = useState(0);
-
   return (
     <div>
-    <CountContext.Provider value={count}>
-    <Count setCount={setCount}/>
-    </CountContext.Provider>
+      <BrowserRouter>
+        <Appbar />
+        <Routes>
+          <Route path="/" element={<Landing />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+        </Routes>
+      </BrowserRouter>
     </div>
   );
 }
 
-function Count({setCount}) {
+function Appbar() {
   return (
     <div>
-    <CountRenderer/>
-    <Button setCount = {setCount}/>
-   </div>
-  );
-}
-
-function CountRenderer(){
-  const count = useContext(CountContext)
-  return(
-    <div>
-    {count}
-    </div>
-  )
-}
-function Button({ setCount }) {
-  const count = useContext(CountContext)
-  return (
-    <div>
-      <button onClick={() => setCount(count + 1)}>Increase</button>
-      <button onClick={() => setCount(count - 1)}>Decrease</button>
+      <button onClick={() => window.location.href = "/"}>
+        Landing page!
+      </button>
+      <button onClick={() => window.location.href = "/dashboard"}>
+        Dashboard page!
+      </button>
     </div>
   );
 }
