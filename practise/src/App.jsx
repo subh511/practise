@@ -1,14 +1,31 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Landing from "./components/Landing";
-import Dashboard from "./components/Dashboard";
+import { Suspense, lazy } from "react";
+const Landing = lazy(() => import("./components/Landing"));
+const Dashboard = lazy(() => import("./components/Dashboard"));
+import { BrowserRouter, Route, Routes, useNavigate } from "react-router-dom";
+
+
 function App() {
   return (
     <div>
       <BrowserRouter>
         <Appbar />
         <Routes>
-          <Route path="/" element={<Landing />} />
-          <Route path="/dashboard" element={<Dashboard />} />
+          <Route
+            path="/"
+            element={
+              <Suspense fallback={"loading..."}>
+                <Landing />
+              </Suspense>
+            }
+          />
+          <Route
+            path="/dashboard"
+            element={
+              <Suspense fallback={"loading..."}>
+                <Dashboard />
+              </Suspense>
+            }
+          />
         </Routes>
       </BrowserRouter>
     </div>
@@ -16,14 +33,11 @@ function App() {
 }
 
 function Appbar() {
+  const navigate = useNavigate();
   return (
     <div>
-      <button onClick={() => window.location.href = "/"}>
-        Landing page!
-      </button>
-      <button onClick={() => window.location.href = "/dashboard"}>
-        Dashboard page!
-      </button>
+      <button onClick={() => navigate("/")}>Landing page!</button>
+      <button onClick={() => navigate("/dashboard")}>Dashboard page!</button>
     </div>
   );
 }
