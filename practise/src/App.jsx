@@ -14,13 +14,24 @@ function App() {
   );
 }
 
+//introduce a paramater which can show count format;
 function Count() {
   return (
     <div>
       <CountRenderer  />
       <Button />
+      <IsEven/>
     </div>
   );
+}
+
+function IsEven(){
+  const count = useRecoilValue(countAtom)
+  return(
+    <div>
+    {count % 2 == 0 ? "even" : null}
+    </div>
+  )
 }
 
 function CountRenderer() {
